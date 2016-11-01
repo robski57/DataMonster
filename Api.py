@@ -12,8 +12,8 @@ def locu_search(query):
     url = 'https://api.locu.com/v1_0/venue/search/?locality=' + city + '&api_key=' + api_key
     request = urllib.request.Request(url)
     response = urllib.request.urlopen(request)
-    #encoding = response.info().get_content_charset('UTF-8')
-    data = json.loads(response)#.read().decode(encoding))
+    encoding = response.info().get_content_charset('UTF-8')
+    data = json.loads(response.read().decode(encoding))
 
     for item in data['objects']:
         print(item['name'], item['phone'])
@@ -22,7 +22,7 @@ def locu_search(query):
     locu_search('San Fransico')
 
     # Headers mut be identical to the headers pull from API
-    '''headers = ['name', 'locality', 'street_address', 'cuisines', 'region',
+    headers = ['name', 'locality', 'street_address', 'cuisines', 'region',
                'long', 'phone', 'postal_code', 'categories', 'has_menu',
                'country', 'lat', 'id', 'website_url', 'resource_uri'
                ]
@@ -33,9 +33,9 @@ def locu_search(query):
     with open(csv_file_name, 'w', newline='') as file:
         file_csv = csv.DictWriter(file, headers)
         file_csv.writeheader()
-        file_csv.writerows(data['objects'])'''
+        file_csv.writerows(data['objects'])
 
-    #locu_search('San Fransico')
+    locu_search('San Fransico')
 
 
 

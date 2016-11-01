@@ -1,18 +1,19 @@
 class Personal:
-    def __init__(self, name, address, phone, postal_code, country, region):
+    def __init__(self, nameNum, name, address, country, region):
+        self.nameNum = nameNum
         self.name = name
         self.address = address
-        self.phone = phone
-        self.postal_code = postal_code
         self.country = country
         self.region = region
 
 
 class Information:
-    def __init__(self, cuisines, categories, has_menu):
+    def __init__(self, cuisinesNum, cuisines, categories, has_menu):
+        self.cuisinesNum = cuisinesNum
         self.cuisines = cuisines
         self.categories = categories
         self.has_menu = has_menu
+
 
 class Sites:
     def __init__(self, website_url, resource_uri):

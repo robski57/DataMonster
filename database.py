@@ -1,79 +1,49 @@
 from models import Personal, Information, Sites
-#from Api import Apidata
+
 import sqlite3
 
 
-class DatabaseManager:
+class DatabaseManager(Personal, Information, Sites):
 
-    def __init__(self, filename):
-        self.conn = sqlite3.connect('monsterData.db')
+    def __init__(self):
+        db = sqlite3.connect('NewData.db')
+        self.cur = db.cursor()
 
-    def setup_db(self):
+    def Personal(self):
+        self.cur.execute('CREATE TABLE if not exists Personal(nameNum INT, name TEXT, address INT, country TEXT, region TEXT)')
+        self._nameNum = input('Please enter nameNum: ', + self._nameNum.get),
+        self._name = input('Please enter name: ', + self._name.get),
+        self._address = input('Please enter address: ', + self._address.get),
+        self._country = input('Please enter country: ', + self._country.get),
+        self._region = input('Please enter region:', + self._region.get)
 
-        sql_script = '''
-            CREATE TABLE Personal (
-                NameNum INT PRIMARY KEY
-                Name TEXT NOT NULL
-                Address INT
-                Phone INT
-                Postal_code INT
-                Country TEXT NOT NULL
-                Region TEXT NOT NULL
-                FOREIGN KEY (CuisinesNum) REFERENCES Information
-                ):
+    def Information(self):
+        self.cur.execute('CREATE TABLE if not exists Information(cuisinesNum INT, cuisines TEXT, categories TEXT,_has_menu TEXT)')
+        self._cuisinesNum = input('Please enter cuisinesNum: ' + self._cuisinesNum.get),
+        self._cuisines = input('Please enter cuisines: ', + self._cuisines.get),
+        self._categories = input('Please enter categories: ', + self._categories.get),
+        self._has_menu = input('Please enter has_menu: ', + self._has_menu.get)
 
-            CREATE TABLE Information (
-                CuisinesNum INT PRIMARY KEY
-                Cuisines TEXT NOT NULL
-                Categories TEXT NOT NULL
-                Has_menu TEXT NOT NULL
-                ):
+    def Sites(self):
+        self.cur.execute('CREATE TABLE if not exists Sites(website_url TEXT,resource_uri TEXT)')
+        self._website_url = input('Please enter website_url: ', + self._website_url.get),
+        self._resource_uri = input('Please enter resource_uri: ', + self._resource_uri.get)
 
-            CREATE TABLE Sites (
-                Website_url TEXT NOT NULL
-                Resource_uri TEXT NOT NULL
-               ):
+        self.cur.execute('insert into Personal values(?,?,?,?,?)', (self._nameNum, self._name, self._address, self._country, self._region))
+        self.cur.execute('INSERT INTO Information VALUES(?,?,?,?)', (self._cuisinesNum, self._cuisines, self._categories, self._has_menu))
+        self.cur.execute('INSERT INTO Sites VALUES(?,?)', (self._website_url, self._resource_uri))
 
-            INSERT INTO Personal VALUES(?,?,?,?,?),(NameNum, Name, Address, Phone, Postal_code, Country, Region))
-            INSERT INTO Information VALUES(?,?,?), (Cuisines, Categories, Has_menu))
-            INSERT INTO Sites VALUES(?,?), (Website_url, Resource_uri))
-                '''
+        self.cur.execute('select * from Personal')
+        self.cur.execute('select * from Information')
+        self.cur.execute('select * from Sites')
+        self.db.commit()
+        for row in self.cur:
+            print(row)
 
-        try:
-            print('Creating tables...')
-            self.conn.executescript(sql_script)
-            print('Table successfully created')
+        self.db.close()
 
-        except sqlite3.OperationalError as oe:
-            print('Error:', oe)
 
-    def _get_personal(self, NameNum):
 
-        try:
-            cur =self.conn.cursor()
-            query = 'SELECT * FROM Personal WHERE NameNum = ?'
-            cur.execute(query, (NameNum, ))
-
-            row = cur.fetchall()
-            if row:
-                NameNum, Name, Address, Phone, Postal_code, Country, Region = (row[0], row[1], row[2])
-                return Personal(NameNum, Name, Phone, Postal_code, Country, Region)
-
-        except sqlite3.OperationalError as oe:
-            print('Sql execution error', oe)
-        except sqlite3.Error as e:
-            print('Connection error ', e)
-
-    ''' def _get_Information(self, cuisines, categories, has_menu):
-
-        try:
-            cur = self.conn.cursor()
-            query = (
-                'SELECT Cuisines, categories, has_menu '
-                'From Information '
-                'JOIN '
-
-            )'''
 
 
 

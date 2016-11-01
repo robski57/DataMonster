@@ -3,9 +3,9 @@ and displays all complaints from customers of different companies.'''
 
 from database import DatabaseManager
 from tkinter import *
-import csv
-db = DatabaseManager('monsterData.db')
-db.setup_db()
+
+db = DatabaseManager()
+
 
 class MonsterGui(Frame):
 
@@ -21,29 +21,41 @@ class MonsterGui(Frame):
         self._nameNumEntry = Entry(self, textvariable=self._nameNumStr)
         self._nameNumEntry.grid(row=0, column=1)
 
+        self._cuisinesNumLabel = Label(self, text="CuisinesNum")
+        self._cuisinesNumLabel.grid(row=0, column=2)
+        self._cuisinesNumStr = StringVar()
+        self._cuisinesNumEntry = Entry(self, textvariable=self._cuisinesNumStr)
+        self._cuisinesNumEntry.grid(row=0, column=3)
+
+        self._cuisinesLabel = Label(self, text="Cuisines")
+        self._cuisinesLabel.grid(row=1, column=2)
+        self._cuisinesStr = StringVar()
+        self._cuisinesEntry = Entry(self, textvariable=self._cuisinesStr)
+        self._cuisinesEntry.grid(row=1, column=3)
+
         self._nameLabel = Label(self, text="Name")
-        self._nameLabel.grid(row=0, column=4)
+        self._nameLabel.grid(row=1, column=0)
         self._nameStr = StringVar()
         self._nameEntry = Entry(self, textvariable=self._nameStr)
-        self._nameEntry.grid(row=0, column=5)
+        self._nameEntry.grid(row=1, column=1)
+
+        self._categoriesLabel = Label(self, text="Categories")
+        self._categoriesLabel.grid(row=2, column=2)
+        self._categoriesVar = StringVar()
+        self._categoriesEntry = Entry(self, textvariable=self._categoriesVar)
+        self._categoriesEntry.grid(row=2, column=3)
+
+        self._has_menuLabel = Label(self, text="Has_menu")
+        self._has_menuLabel.grid(row=3, column=2)
+        self._has_menuVar = StringVar()
+        self._has_menuEntry = Entry(self, textvariable=self._has_menuVar)
+        self._has_menuEntry.grid(row=3, column=3)
 
         self._addressLabel = Label(self, text="Address")
-        self._addressLabel.grid(row=1, column=0)
+        self._addressLabel.grid(row=5, column=0)
         self._addressStr = StringVar()
         self._addressEntry = Entry(self, textvariable=self._addressStr)
-        self._addressEntry.grid(row=1, column=1)
-
-        self._phoneLabel = Label(self, text="Phone")
-        self._phoneLabel.grid(row=1, column=4)
-        self._phoneStr = DoubleVar()
-        self._phoneEntry = Entry(self, textvariable=self._phoneStr)
-        self._phoneEntry.grid(row=1, column=5)
-
-        self._postalCodeLabel = Label(self, text="Postal Code")
-        self._postalCodeLabel.grid(row=2, column=4)
-        self._postalCodeStr = DoubleVar()
-        self._postalCodeEntry = Entry(self, textvariable=self._postalCodeStr)
-        self._postalCodeEntry.grid(row=2, column=5)
+        self._addressEntry.grid(row=5, column=1)
 
         self._countryLabel = Label(self, text="County")
         self._countryLabel.grid(row=2, column=0)
@@ -57,47 +69,55 @@ class MonsterGui(Frame):
         self._regionEntry = Entry(self, textvariable=self._regionVar)
         self._regionEntry.grid(row=3, column=1)
 
-        ''' self._totalLabel = Label(self, text="Total")
-        self._totalLabel.grid(row=4, column=0)
-        self._totalVar = DoubleVar()
-        self._totalEntry = Entry(self, textvariable=self._totalVar)
-        self._totalEntry.grid(row=4, column=1)'''
+        self._website_urlLabel = Label(self, text="Website")
+        self._website_urlLabel.grid(row=0, column=4)
+        self._website_urlVar = StringVar()
+        self._website_urlEntry = Entry(self, textvariable=self._website_urlVar)
+        self._website_urlEntry.grid(row=0, column=5)
+
+        self._resource_uriLabel = Label(self, text="Resource")
+        self._resource_uriLabel.grid(row=1, column=4)
+        self._resource_uriVar = StringVar()
+        self._resource_uriEntry = Entry(self, textvariable=self._resource_uriVar)
+        self._resource_uriEntry.grid(row=1, column=5)
+
+
 
         # command button for compute and quit.
-        self._button = Button(self, text="Total", command=self._total)
-        self._button.grid(row=5, column=0, columnspan=2)
+        self._button = Button(self, text="Interjection", command=self._Interjection)
+        self._button.grid(row=5, column=4, columnspan=4)
 
         #self._button = Button(self, text="API", command=self._locu_search)
         #self._button.grid(row=7, column=0, columnspan=5)
 
 
 
-    def _total(self):
-        NameNum = self._nameNumStr.get()
+    def _Interjection(self):
+        nameNum = self._nameNumStr.get()
+        print('NameNum: ' + nameNum)
         Name = self._nameStr.get()
+        print('Name: ' + Name)
         Address = self._addressStr.get()
-        PostalCode = self._postalCodeStr.get()
-        Phone = self._phoneStr.get()
+        print('Address: ' + Address)
         Country = self._countryVar.get()
+        print('Country: ' + Country)
         Region = self._countryVar.get()
+        print('Region: ' + Region)
+        Categories = self._categoriesVar.get()
+        print('Categories:' + Categories)
+        Has_menu = self._has_menuVar.get()
+        print('Has_menu:' + Has_menu)
+        CuisinesNum = self._cuisinesNumStr.get()
+        print('CuisinesNum:' + CuisinesNum)
+        Cuisines = self._cuisinesStr.get()
+        print('Cuisines:' + Cuisines)
+        Websites_url = self._websites_urlVar.get()
+        print('Websites:' + Websites_url)
+        Resource_uri = self._resource_uriVar.get()
+        print('Resource:' + Resource_uri)
 
-        print('NumberID' + NameNum)
-        print('Name' + Name)
-        print('Address' + Address)
-        print('Postal' + PostalCode)
-        print('Phone' + Phone)
-        print('Country' + Country)
-        print('Region' + Region)
 
-        headers = ['NameNum','Name','Address','Region', 'Phone', 'PostalCode', 'Country']
 
-        '''csv_file_name = 'Locu_Data_Push.csv'
-
-        # newline avoid the extra blank row when you import the data
-        with open(csv_file_name, 'w', newline='') as file:
-            file_csv = csv.DictWriter(file, headers)
-            file_csv.writeheader()
-            file_csv.writerows(self)'''
 
 
 def start_gui():
@@ -109,7 +129,7 @@ def quit():
 
 
 def main():
-    start_gui()
+    start_gui().mainloop()
 
 
 main()
