@@ -84,7 +84,7 @@ class MonsterGui(Frame):
 
 
         # command button for compute and quit.
-        self._button = Button(self, text="Interjection", command=self._Interjection)
+        self._button = Button(self, text="Injection", command=self._Injection)
         self._button.grid(row=5, column=4, columnspan=4)
 
         #self._button = Button(self, text="API", command=self._locu_search)
